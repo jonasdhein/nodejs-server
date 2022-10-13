@@ -1,10 +1,12 @@
 const express = require("express");
+const router = express.Router();
 const { randomUUID } = require("crypto");
 const fs = require("fs");
 
 const app = express();
 
-app.use(express.json());
+//app.use(express.json());
+app.use('/.netlify/functions/api', router);
 
 let products = [];
 
@@ -102,4 +104,6 @@ function updateProductsFile() {
     })
 }
 
-app.listen(8080, () => console.log("Server running on 8080"));
+//app.listen(8080, () => console.log("Server running on 8080"));
+module.exports=app;
+module.exports.handler = serverless(app);
