@@ -40,10 +40,12 @@ router.get("/products/:id", (req, res) => {
 
 router.post("/products", (req, res) => {
 
-    const { name, price } = req.body;
+    //const { name, price } = req.body;
+    const { name, price } = req.apiGateway.event.body;
 
-    console.log('REQUISICAO', req);
+    console.log('REQUISICAO', req.apiGateway.event.body);
 
+    
     const product = {
         id: randomUUID(),
         name,
@@ -56,7 +58,7 @@ router.post("/products", (req, res) => {
     updateProductsFile();
 
     return res.json(product);
-
+    
 })
 
 router.put("/products/:id", (req, res) => {
