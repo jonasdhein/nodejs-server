@@ -1,16 +1,18 @@
 const express = require("express");
-const router = express.Router();
+const serverless = require("serverless-http");
 const { randomUUID } = require("crypto");
 const fs = require("fs");
 
 const app = express();
+const router = express.Router(); //netlify dependence work
 
 //app.use(express.json());
-app.use('/.netlify/functions/api', router);
+
+app.use('/', router);
 
 let products = [];
 
-fs.readFile("products.json", (err, data) => {
+fs.readFile("./products.json", (err, data) => {
     if (err) {
         console.log(err);
     } else {
@@ -18,17 +20,17 @@ fs.readFile("products.json", (err, data) => {
     }
 })
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
     return res.json({
         message: 'initial route'
     })
 });
 
-app.get("/products", (req, res) => {
+router.get("/products", (req, res) => {
     return res.json(products);
 });
 
-app.get("/products/:id", (req, res) => {
+router.get("/products/:id", (req, res) => {
 
     const { id } = req.params;
     const product = products.find(product => product.id == id);
@@ -36,9 +38,11 @@ app.get("/products/:id", (req, res) => {
     return res.json(product);
 });
 
-app.post("/products", (req, res) => {
+router.post("/products", (req, res) => {
 
     const { name, price } = req.body;
+
+    console.log('REQUISICAO', req);
 
     const product = {
         id: randomUUID(),
@@ -55,8 +59,7 @@ app.post("/products", (req, res) => {
 
 })
 
-
-app.put("/products/:id", (req, res) => {
+router.put("/products/:id", (req, res) => {
 
     const { id } = req.params;
     const { name, price } = req.body;
@@ -73,7 +76,7 @@ app.put("/products/:id", (req, res) => {
     return res.json({ message: "Product updated" });
 });
 
-app.delete("/products/:id", (req, res) => {
+router.delete("/products/:id", (req, res) => {
 
     const { id } = req.params;
     const productIndex = products.findIndex(product => product.id === id);
@@ -95,7 +98,7 @@ app.delete("/products/:id", (req, res) => {
 });
 
 function updateProductsFile() {
-    fs.writeFile("products.json", JSON.stringify(products), (err) => {
+    fs.writeFile("./products.json", JSON.stringify(products), (err) => {
         if (err) {
             console.log(err);
         } else {
@@ -105,5 +108,5 @@ function updateProductsFile() {
 }
 
 //app.listen(8080, () => console.log("Server running on 8080"));
-module.exports=app;
+//module.exports=app;
 module.exports.handler = serverless(app);
