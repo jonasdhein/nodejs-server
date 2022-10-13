@@ -41,7 +41,7 @@ router.get("/products/:id", (req, res) => {
 router.post("/products", (req, res) => {
 
     //const { name, price } = req.body;
-    const { name, price } = req.apiGateway.event.body;
+    const { name, price } = JSON.parse(req.apiGateway.event.body);
 
     console.log('REQUISICAO', req.apiGateway.event.body);
 
@@ -57,7 +57,7 @@ router.post("/products", (req, res) => {
     //gravar também no arquivo
     updateProductsFile();
 
-    return res.json(JSON.parse(req.apiGateway.event.body));
+    return res.json(product);
     
 })
 
