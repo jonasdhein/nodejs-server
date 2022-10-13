@@ -1,0 +1,26 @@
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+    "name": "Folha de ofício",
+    "price": 0.2
+}
+
+###
+
+GET http://localhost:8080/products
+
+###
+GET http://localhost:8080/products/0cd6a452-8f5d-48d2-94cb-023e8a8874c6
+
+###
+PUT http://localhost:8080/products/0bcceba0-239e-4f9c-b01b-93502d45d25a
+Content-Type: application/json
+
+{
+    "name": "Lápis 2",
+    "price": 33
+}
+
+###
+DELETE http://localhost:8080/products/29cb3b73-4d35-4e10-b84c-e4795c8df99a

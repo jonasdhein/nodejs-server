@@ -1,0 +1,15 @@
+{
+  "name": "nodejs-server",
+  "version": "1.0.0",
+  "description": "Node server example",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "author": "Jonas Dhein",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}
