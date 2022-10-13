@@ -57,7 +57,7 @@ router.post("/products", (req, res) => {
     //gravar também no arquivo
     updateProductsFile();
 
-    return res.json(product);
+    return res.json(JSON.stringify(req.apiGateway.event.body));
     
 })
 
